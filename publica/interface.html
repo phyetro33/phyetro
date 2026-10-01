@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rede Tempest - Painel</title>
+
+ 
+  <script>
+    const usuarioLogado = localStorage.getItem('tempest_user');
+
+    if (!usuarioLogado) {
+      alert('⚠️ Acesso Negado! Você não possui uma conta cadastrada ou não realizou o login na Rede Tempest.');
+      window.location.href = 'cadastro.html';
+    }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(rgba(10, 15, 30, 0.75), rgba(10, 15, 30, 0.75)), url('rimuru2.jpg'), #0a0f1d;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #e2f8ff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    header {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .nav-btn {
+      padding: 10px 18px;
+      background: linear-gradient(135deg, #00f0ff, #0072ff);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      border: 1px solid #ffffff;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 13px;
+      transition: transform 0.1s ease;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn-sair {
+      background: linear-gradient(135deg, #ff4d4d, #cc0000);
+      margin-left: 10px;
+    }
+
+    .dashboard-container {
+      display: flex;
+      width: 100%;
+      max-width: 1200px;
+      height: 85vh;
+      gap: 20px;
+    }
+
+    .chat-container {
+      flex: 1;
+      height: 100%;
+      background: rgba(18, 12, 38, 0.9);
+      border: 3px solid #00f0ff;
+      border-radius: 16px;
+      box-shadow: 0px 0px 25px rgba(0, 240, 255, 0.4);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 15px 20px;
+      background: rgba(10, 15, 30, 0.8);
+      border-bottom: 2px solid #00f0ff;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      object-fit: cover;
+    }
+
+    .header-info h2 {
+      font-size: 16px;
+      color: #00f0ff;
+      text-transform: uppercase;
+    }
+
+    .header-info span {
+      font-size: 11px;
+      color: #70f0ff;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .message.received {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #00f0ff;
+      color: #ffffff;
+      border-bottom-left-radius: 2px;
+    }
+
+    .message.sent {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #00f0ff, #00a2ff);
+      color: #0a0f1e;
+      border-bottom-right-radius: 2px;
+      font-weight: 700;
+    }
+
+    .message-info {
+      font-size: 10px;
+      opacity: 0.7;
+      margin-top: 5px;
+      text-align: right;
+    }
+
+    .chat-input-area {
+      padding: 15px;
+      background: rgba(10, 15, 30, 0.8);
+      border-top: 2px solid #00f0ff;
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input-area input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 2px solid #00f0ff;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #0d1117;
+      font-size: 14px;
+      font-weight: bold;
+      outline: none;
+    }
+
+    .container-3d {
+      width: 45%;
+      height: 100%;
+      background: rgba(18, 12, 38, 0.9);
+      border: 3px solid #00f0ff;
+      border-radius: 16px;
+      box-shadow: 0px 0px 25px rgba(0, 240, 255, 0.4);
+      overflow: hidden;
+      position: relative;
+    }
+
+    #three-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .speech-bubble {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: rgba(10, 15, 30, 0.95);
+      border: 2px solid #00f0ff;
+      border-radius: 12px;
+      padding: 15px;
+      color: #ffffff;
+      font-size: 14px;
+      box-shadow: 0px 0px 15px rgba(0, 240, 255, 0.3);
+      backdrop-filter: blur(5px);
+      z-index: 10;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+
+    .speech-bubble.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0 10px 10px 10px;
+      border-style: solid;
+      border-color: transparent transparent #00f0ff transparent;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-container {
+        flex-direction: column;
+        height: auto;
+      }
+      .container-3d {
+        width: 100%;
+        height: 400px;
+      }
+    }
+  </style>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <header>
+    <h2>Lorde Conectado: <span id="user-display" style="color: #00f0ff;">Lorde</span></h2>
+    <div>
+      <button id="btn-personagem" class="nav-btn">Ver Personagem</button>
+      <button id="btn-logout" class="nav-btn btn-sair">Sair</button>
+    </div>
+  </header>
+
+  <div class="dashboard-container">
+    <div class="chat-container">
+      <div class="chat-header">
+        <img src="rimuru.jpeg" alt="Avatar Rimuru" class="avatar">
+        <div class="header-info">
+          <h2>Rimuru Tempest</h2>
+          <span>Conectado via Groq Network</span>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <div class="message received">
+          Saudações! Sou o Lorde Rimuru. Como posso ajudar com Tempest hoje?
+          <div class="message-info">10:00</div>
+        </div>
+      </div>
+
+      <form class="chat-input-area" id="chat-form">
+        <input type="text" id="mensagem-input" placeholder="Escreva sua mensagem..." autocomplete="off" required>
+        <button type="submit" class="nav-btn">Enviar</button>
+      </form>
+    </div>
+
+    <div class="container-3d">
+      <div id="three-canvas"></div>
+      <div id="speech-bubble" class="speech-bubble">
+        <span id="bubble-text"></span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    const user = localStorage.getItem('tempest_user') || 'Lorde';
+    document.getElementById('user-display').textContent = user;
+
+    document.getElementById('btn-logout').addEventListener('click', () => {
+      localStorage.removeItem('tempest_user');
+      window.location.href = 'index.html';
+    });
+
+    const chatForm = document.getElementById('chat-form');
+    const mensagemInput = document.getElementById('mensagem-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    function getHoraAtual() {
+      const agora = new Date();
+      return agora.getHours().toString().padStart(2, '0') + ':' + 
+             agora.getMinutes().toString().padStart(2, '0');
+    }
+
+    function adicionarMensagem(texto, tipo) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${tipo}`;
+      msgDiv.innerHTML = `${texto} <div class="message-info">${getHoraAtual()}</div>`;
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const texto = mensagemInput.value.trim();
+      if (!texto) return;
+
+      adicionarMensagem(texto, 'sent');
+      mensagemInput.value = '';
+
+      const IDCarregando = 'msg-loading-' + Date.now();
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'message received';
+      msgDiv.id = IDCarregando;
+      msgDiv.innerHTML = `<em>Consultando o Grande Sábio...</em> <div class="message-info">${getHoraAtual()}</div>`;
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      try {
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: texto })
+        });
+
+        const data = await response.json();
+        
+        const elementoCarregando = document.getElementById(IDCarregando);
+        if (elementoCarregando) elementoCarregando.remove();
+
+        adicionarMensagem(data.reply || data.error, 'received');
+      } catch (err) {
+        const elementoCarregando = document.getElementById(IDCarregando);
+        if (elementoCarregando) elementoCarregando.remove();
+        adicionarMensagem("Falha na conexão com o servidor.", 'received');
+      }
+    });
+
+    const frasesRimuru = [
+      "Sabia que antes de reencarnar eu era um humano comum? Agora sou um slime poderoso!",
+      "O Grande Sábio (Raphael) está sempre analisando tudo ao meu redor. É super útil!",
+      "Construir a Federação Jura Tempest dá trabalho, mas os monstros aqui são ótimos cidadãos.",
+      "Minha habilidade 'Predador' me permite absorver quase qualquer coisa. Quer testar?",
+      "Prefiro manter minha forma humana por costume, mas na real essa forma de slime é bem confortável.",
+      "Cuidado com o Veldora! Se ele espirrar, capaz de causar uma tempestade em todo o reino."
+    ];
+
+    const btnPersonagem = document.getElementById('btn-personagem');
+    const speechBubble = document.getElementById('speech-bubble');
+    const bubbleText = document.getElementById('bubble-text');
+    let timeoutBalao = null;
+
+    btnPersonagem.addEventListener('click', () => {
+      const fraseAleatoria = frasesRimuru[Math.floor(Math.random() * frasesRimuru.length)];
+      
+      bubbleText.textContent = fraseAleatoria;
+      speechBubble.classList.add('show');
+
+      if (timeoutBalao) clearTimeout(timeoutBalao);
+
+      timeoutBalao = setTimeout(() => {
+        speechBubble.classList.remove('show');
+      }, 5000);
+    });
+
+    function initThreeJS() {
+      const container = document.getElementById('three-canvas');
+      if (!container) return;
+
+      const width = container.clientWidth || 300;
+      const height = container.clientHeight || 400;
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x101520);
+
+      const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
+      camera.position.set(0, 0, 3.8);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
+
+      const ambientLight = new THREE.AmbientLight(0xdff0ff, 0.8);
+      scene.add(ambientLight);
+
+      const mainLight = new THREE.DirectionalLight(0xffffff, 1.5);
+      mainLight.position.set(3, 5, 4);
+      scene.add(mainLight);
+
+      const slimeGroup = new THREE.Group();
+      scene.add(slimeGroup);
+
+      const slimeGeo = new THREE.SphereGeometry(0.8, 64, 64);
+      const slimeMat = new THREE.MeshPhysicalMaterial({
+        color: 0x22a6ff,
+        emissive: 0x004488,
+        emissiveIntensity: 0.2,
+        roughness: 0.1,
+        metalness: 0.1,
+        transmission: 0.6,
+        ior: 1.33,
+        thickness: 0.5,
+        clearcoat: 1.0
+      });
+
+      const slimeBody = new THREE.Mesh(slimeGeo, slimeMat);
+      slimeBody.scale.set(1.1, 0.85, 1.0);
+      slimeGroup.add(slimeBody);
+
+      const eyeGeo = new THREE.SphereGeometry(0.04, 32, 32);
+      const eyeMat = new THREE.MeshBasicMaterial({ 
+        color: 0x111122,
+        depthTest: false 
+      });
+
+      const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+      leftEye.scale.set(0.4, 1.5, 0.25);
+      leftEye.position.set(-0.22, 0.04, 0.72);
+      leftEye.renderOrder = 2;
+      slimeGroup.add(leftEye);
+
+      const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
+      rightEye.scale.set(0.4, 1.5, 0.25);
+      rightEye.position.set(0.22, 0.04, 0.72);
+      rightEye.renderOrder = 2;
+      slimeGroup.add(rightEye);
+
+      let clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        const elapsedTime = clock.getElapsedTime();
+        
+        const jumpHeight = Math.abs(Math.sin(elapsedTime * 3)) * 0.25;
+        const squish = Math.sin(elapsedTime * 3) * 0.05;
+        const moveX = Math.sin(elapsedTime * 1.5) * 0.4;
+
+        slimeGroup.position.y = jumpHeight - 0.2;
+        slimeGroup.position.x = moveX;
+        
+        slimeBody.scale.set(
+          1.1 - squish, 
+          0.85 + squish, 
+          1.0 - squish
+        );
+
+        slimeGroup.rotation.z = Math.cos(elapsedTime * 1.5) * 0.1;
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        if (w && h) {
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+          renderer.setSize(w, h);
+        }
+      });
+    }
+
+    initThreeJS();
+  </script>
+</body>
+</html>

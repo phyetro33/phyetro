@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rede Tempest - Portal Oficial</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(rgba(10, 15, 30, 0.85), rgba(10, 15, 30, 0.85)), url('rimuru2.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #e2f8ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(18, 12, 38, 0.9);
+      border-bottom: 2px solid #00f0ff;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 2px solid #00f0ff;
+      object-fit: cover;
+    }
+
+    .brand h1 {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 20px;
+      color: #00f0ff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.8);
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-btn {
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 13px;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .btn-login {
+      background: transparent;
+      color: #00f0ff;
+      border: 2px solid #00f0ff;
+    }
+
+    .btn-login:hover {
+      background: rgba(0, 240, 255, 0.2);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+    }
+
+    .btn-cadastro {
+      background: linear-gradient(135deg, #00f0ff, #0072ff);
+      color: #fff;
+      border: 2px solid #fff;
+    }
+
+    .btn-cadastro:hover {
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
+    }
+
+    .hero {
+      max-width: 900px;
+      margin: 50px 20px 30px;
+      text-align: center;
+      background: rgba(18, 12, 38, 0.85);
+      padding: 40px;
+      border: 3px solid #00f0ff;
+      border-radius: 16px;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero h2 {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 32px;
+      color: #00f0ff;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+    }
+
+    .hero p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #d0f4ff;
+      margin-bottom: 30px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+      padding: 0 20px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: rgba(18, 12, 38, 0.8);
+      border: 2px solid #00f0ff;
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 20px rgba(0, 240, 255, 0.5);
+    }
+
+    .card-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-family: 'Arial Black', sans-serif;
+      color: #00f0ff;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 13px;
+      line-height: 1.4;
+      color: #c4ecff;
+      margin-bottom: 15px;
+    }
+
+    .card a {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #00f0ff;
+      color: #0d1117;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      font-size: 12px;
+      color: #88a0b0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <img src="rimuru.jpeg" alt="Logo Rimuru">
+      <h1>REDE TEMPEST</h1>
+    </div>
+    <nav>
+      <a href="login.html" class="nav-btn btn-login">Login</a>
+      <a href="cadastro.html" class="nav-btn btn-cadastro">Cadastrar</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Bem-vindo à Federação Tempest</h2>
+    <p>
+      O portal oficial para os habitantes e cidadãos do Grande Floresta de Jura.
+      Conecte-se com outros membros, troque mensagens no chat em tempo real e acesse recursos exclusivos da rede.
+    </p>
+    <a href="cadastro.html" class="nav-btn btn-cadastro" style="padding: 12px 30px; font-size: 15px;">
+      Junte-se a Nós
+    </a>
+  </section>
+
+  <section class="features-grid">
+    <div class="card">
+      <div class="card-icon">💬</div>
+      <h3>Chat da Rede</h3>
+      <p>Converse em tempo real com outros lordes e cidadãos cadastrados na plataforma.</p>
+      <a href="interface.html">Acessar Chat</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <h3>Área de Membros</h3>
+      <p>Gerencie sua conta, classe mágica e informações de cidadão de Tempest.</p>
+      <a href="login.html">Fazer Login</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🌀</div>
+      <h3>Registrar Raça</h3>
+      <p>Ainda não é um cidadão oficial? Crie seu perfil e registre sua classe mágica.</p>
+      <a href="cadastro.html">Criar Conta</a>
+    </div>
+  </section>
+
+  <footer>
+    Federação da Grande Floresta de Jura - Rede Tempest ©
+  </footer>
+
+</body>
+</html>

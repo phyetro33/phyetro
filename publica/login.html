@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rede Tempest - Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(rgba(10, 15, 30, 0.75), rgba(10, 15, 30, 0.75)), url('rimuru2.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #e2f8ff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .Rimuru-container {
+      background: rgba(18, 12, 38, 0.85); 
+      padding: 35px;
+      border: 3px solid #00f0ff; 
+      border-radius: 16px;
+      box-shadow: 0px 0px 20px rgba(0, 240, 255, 0.4), 0px 8px 0px #00a2ff;
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      width: 320px;
+      font-family: 'Arial Black', Impact, sans-serif;
+      align-items: center;
+    }
+
+    .form-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid #00f0ff;
+      object-fit: cover;
+      margin-bottom: 10px;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+    }
+
+    .Rimuru-container label {
+      width: 100%;
+      text-align: left;
+      text-transform: uppercase;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      color: #e2f8ff;
+      text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+    }
+
+    .Rimuru-container input {
+      padding: 12px;
+      border: 2px solid #00f0ff;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #0d1117;
+      font-size: 14px;
+      font-weight: bold;
+      outline: none;
+      width: 100%;
+    }
+
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .password-wrapper input {
+      padding-right: 45px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: #0d1117;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      margin-top: 25px;
+      padding: 14px;
+      background: linear-gradient(135deg, #00f0ff, #0072ff);
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0px 5px 15px rgba(0, 240, 255, 0.4);
+    }
+
+    button[type="submit"]:hover {
+      background: linear-gradient(135deg, #0072ff, #00f0ff);
+      box-shadow: 0px 5px 20px rgba(0, 240, 255, 0.8);
+    }
+
+    .link-box {
+      margin-top: 18px;
+      font-size: 11px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+    }
+
+    .link-box a {
+      color: #00f0ff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    .link-box a:hover {
+      color: #ffffff;
+      text-shadow: 0 0 8px #00f0ff;
+    }
+
+    .error-msg {
+      color: #ff4d4d;
+      font-size: 11px;
+      margin-top: 10px;
+      text-align: center;
+      font-family: 'Segoe UI', sans-serif;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="login-form" class="Rimuru-container">
+    <img src="rimuru.jpeg" alt="Logo Rimuru" class="form-logo">
+
+    <label for="email">Rimuru-Email</label>
+    <input type="email" id="email" name="email" placeholder="RimuruTempest@gmail.com" required>
+
+    <label for="senha">Senha Secreta</label>
+    <div class="password-wrapper">
+      <input type="password" id="senha" name="senha" placeholder="••••••••" required>
+      <button type="button" class="toggle-password" id="btn-toggle-senha">👁️</button>
+    </div>
+
+    <p id="error-msg" class="error-msg"></p>
+
+    <button type="submit">Entrar em Tempest</button>
+
+    <div class="link-box">
+      <span>Ainda não tem cadastro? </span>
+      <a href="cadastro.html">Criar Conta em Tempest</a>
+    </div>
+  </form>
+
+  <script>
+    const btnToggle = document.getElementById('btn-toggle-senha');
+    const inputSenha = document.getElementById('senha');
+    const errorMsg = document.getElementById('error-msg');
+
+    btnToggle.addEventListener('click', () => {
+      const isPassword = inputSenha.type === 'password';
+      inputSenha.type = isPassword ? 'text' : 'password';
+      btnToggle.textContent = isPassword ? '🙈' : '👁️';
+    });
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      errorMsg.style.display = 'none';
+
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const senha = document.getElementById('senha').value;
+
+      const usersList = JSON.parse(localStorage.getItem('tempest_users_list') || '[]');
+      const user = usersList.find(u => u.email === email);
+
+      if (!user) {
+        errorMsg.textContent = '⚠️ Este e-mail não está cadastrado!';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      if (user.senha !== senha) {
+        errorMsg.textContent = '⚠️ Senha incorreta!';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      localStorage.setItem('tempest_user', user.nome);
+      window.location.href = 'interface.html';
+    });
+  </script>
+</body>
+</html>

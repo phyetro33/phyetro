@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rede Tempest - Cadastro</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(rgba(10, 15, 30, 0.75), rgba(10, 15, 30, 0.75)), url('rimuru2.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #e2f8ff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .Rimuru-container {
+      background: rgba(18, 12, 38, 0.85); 
+      padding: 35px;
+      border: 3px solid #00f0ff; 
+      border-radius: 16px;
+      box-shadow: 0px 0px 20px rgba(0, 240, 255, 0.4), 0px 8px 0px #00a2ff;
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      width: 340px;
+      font-family: 'Arial Black', Impact, sans-serif;
+      align-items: center;
+    }
+
+    .form-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid #00f0ff;
+      object-fit: cover;
+      margin-bottom: 5px;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+    }
+
+    .form-title {
+      font-size: 16px;
+      text-transform: uppercase;
+      color: #00f0ff;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.8);
+    }
+
+    .Rimuru-container label {
+      width: 100%;
+      text-align: left;
+      text-transform: uppercase;
+      margin-top: 12px;
+      margin-bottom: 5px;
+      font-size: 12px;
+      letter-spacing: 1.2px;
+      color: #e2f8ff;
+      text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+    }
+
+    .Rimuru-container input, .Rimuru-container select {
+      padding: 10px 12px;
+      border: 2px solid #00f0ff;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #0d1117;
+      font-size: 13px;
+      font-weight: bold;
+      outline: none;
+      width: 100%;
+    }
+
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .password-wrapper input {
+      padding-right: 45px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: #0d1117;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      background: linear-gradient(135deg, #00f0ff, #0072ff);
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0px 5px 15px rgba(0, 240, 255, 0.4);
+    }
+
+    button[type="submit"]:hover {
+      background: linear-gradient(135deg, #0072ff, #00f0ff);
+      box-shadow: 0px 5px 20px rgba(0, 240, 255, 0.8);
+    }
+
+    .link-box {
+      margin-top: 18px;
+      font-size: 11px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+    }
+
+    .link-box a {
+      color: #00f0ff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    .link-box a:hover {
+      color: #ffffff;
+      text-shadow: 0 0 8px #00f0ff;
+    }
+
+    .error-msg {
+      color: #ff4d4d;
+      font-size: 11px;
+      margin-top: 6px;
+      font-family: 'Segoe UI', sans-serif;
+      display: none;
+      text-align: left;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="cadastro-form" class="Rimuru-container">
+    <img src="rimuru.jpeg" alt="Logo Rimuru" class="form-logo">
+    <h2 class="form-title">Novo Cidadão</h2>
+
+    <label for="nome">Nome do Lorde / Cidadão</label>
+    <input type="text" id="nome" name="nome" placeholder="Ex: Rimuru Tempest" required>
+
+    <label for="raca">Raça / Classe Mágica</label>
+    <select id="raca" name="raca" required>
+      <option value="" disabled selected>Selecione sua origem...</option>
+      <option value="Slime Demoníaco">Slime Demoníaco</option>
+      <option value="Kijin">Kijin (Ogro Evoluído)</option>
+      <option value="Dragão Verdadeiro">Dragão Verdadeiro</option>
+      <option value="Lorde Demônio">Lorde Demônio</option>
+      <option value="Humano / Invocado">Humano / Invocado</option>
+    </select>
+
+    <label for="email">Rimuru-Email</label>
+    <input type="email" id="email" name="email" placeholder="RimuruTempest@gmail.com" required>
+    <span id="email-erro" class="error-msg">⚠️ Este e-mail já está sendo utilizado!</span>
+
+    <label for="senha">Senha Secreta (mín. 8 caracteres)</label>
+    <div class="password-wrapper">
+      <input type="password" id="senha" name="senha" placeholder="••••••••" minlength="8" required>
+      <button type="button" class="toggle-password" id="btn-toggle-senha">👁️</button>
+    </div>
+
+    <label for="confirmar-senha">Confirmar Senha</label>
+    <div class="password-wrapper">
+      <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="••••••••" minlength="8" required>
+    </div>
+    <span id="senha-erro" class="error-msg">⚠️ As senhas não conferem ou possuem menos de 8 caracteres!</span>
+
+    <button type="submit">Cadastrar em Tempest</button>
+
+    <div class="link-box">
+      <span>Já tem uma conta? </span>
+      <a href="login.html">Entrar na Rede Tempest</a>
+    </div>
+  </form>
+
+  <script>
+    const btnToggle = document.getElementById('btn-toggle-senha');
+    const inputSenha = document.getElementById('senha');
+    const inputConfirmarSenha = document.getElementById('confirmar-senha');
+    const senhaErro = document.getElementById('senha-erro');
+    const emailErro = document.getElementById('email-erro');
+
+    btnToggle.addEventListener('click', () => {
+      const isPassword = inputSenha.type === 'password';
+      inputSenha.type = isPassword ? 'text' : 'password';
+      inputConfirmarSenha.type = isPassword ? 'text' : 'password';
+      btnToggle.textContent = isPassword ? '🙈' : '👁️';
+    });
+
+    document.getElementById('cadastro-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      senhaErro.style.display = 'none';
+      emailErro.style.display = 'none';
+
+      const nome = document.getElementById('nome').value;
+      const raca = document.getElementById('raca').value;
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const senha = inputSenha.value;
+      const confirmarSenha = inputConfirmarSenha.value;
+
+      if (senha.length < 8) {
+        senhaErro.textContent = '⚠️ A senha deve ter no mínimo 8 caracteres!';
+        senhaErro.style.display = 'block';
+        return;
+      }
+
+      if (senha !== confirmarSenha) {
+        senhaErro.textContent = '⚠️ As senhas não conferem!';
+        senhaErro.style.display = 'block';
+        return;
+      }
+
+      const usersList = JSON.parse(localStorage.getItem('tempest_users_list') || '[]');
+
+      const emailExiste = usersList.some(u => u.email === email);
+      if (emailExiste) {
+        emailErro.style.display = 'block';
+        return;
+      }
+
+      const newUser = { nome, raca, email, senha };
+      usersList.push(newUser);
+      localStorage.setItem('tempest_users_list', JSON.stringify(usersList));
+
+      alert(`Bem-vindo à Federação Tempest, ${nome}! Seu cadastro foi concluído.`);
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>
