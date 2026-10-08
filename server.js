@@ -11,7 +11,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const API_KEY=process.env.GROQ_API_KEY
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 app.use(express.json());
 app.use(express.static(__dirname));
 app.use(express.static('publica'));
